@@ -31,7 +31,7 @@ f1 = target_files('C:\数据资料\erp商品分析\商品数据', ('.csv'))
 d = []
 for file in f1:
     print(file)
-    dt = pd.read_csv(file,dtype=str,encoding='gb18030',encoding_errors='backslashreplace')
+    dt = pd.read_csv(file, dtype=str, encoding='gb18030',encoding_errors='backslashreplace')
     d.append(dt)
 
 # 增量
