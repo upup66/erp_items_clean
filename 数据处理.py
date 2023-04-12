@@ -49,7 +49,20 @@ d2 = d+d1
 df = pd.concat(d2)
 
 #%%格式处理
-t = ['订单日期', '发货日期', '付款日期', '确认收货日期', '供销支付时间','售后登记日期', '售后确认日期', '售后进仓日期']
+def detect_date_columns(df):
+    date_cols = []
+    for col in df.columns:
+        if df[col].isna().all():
+            continue
+        try:
+            pd.to_datetime(df[col], errors='raise')
+            date_cols.append(col)
+        except:
+            pass
+    return date_cols
+
+
+t = detect_date_columns(df)
             
 n = [ '基本售价', '销售数量', '实发金额', '销售金额',
        '已付金额', '应付金额', '售价', '当期退货数量', '当期实退数量', '当期退货金额',
@@ -61,7 +74,7 @@ n = [ '基本售价', '销售数量', '实发金额', '销售金额',
 st = ['线上订单号','快递单号','原始线上订单号','线上子订单编号','商品编码','款式编码','组合装商品编码']
 # 时间格式
 for column in t:
-    df[column] = pd.to_datetime(df[column], errors='ignore')
+    df[column] = pd.to_datetime(df[column], errors='raise')
 
 # 空值填充
 df.fillna('',inplace=True)
